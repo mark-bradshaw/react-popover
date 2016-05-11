@@ -35,6 +35,7 @@ export class Popover extends React.Component {
 		position: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
 		onShow: React.PropTypes.func,
 		onHide: React.PropTypes.func,
+		style: React.PropTypes.object,
 	};
 
 	static defaultProps = {
@@ -52,7 +53,6 @@ export class Popover extends React.Component {
 	};
 
 	show = () => {
-		this.immune = true;
 		popoverStore.register(this.hide);
 		this.setState({ isPopoverShown: true });
 		if (this.props.onShow) {
@@ -61,10 +61,7 @@ export class Popover extends React.Component {
 	};
 
 	hide = () => {
-		if (!this.immune) {
-			this.setState({ isPopoverShown: false });
-		}
-		this.immune = false;
+		this.setState({ isPopoverShown: false });
 		if (this.props.onHide) {
 			this.props.onHide();
 		}
@@ -83,7 +80,7 @@ export class Popover extends React.Component {
 		const popoverClasses = classnames('popover', this.props.className, `popover--${this.props.position}`, { 'popover--active': this.state.isPopoverShown });
 
 		return (
-			<div className={popoverClasses}>
+			<div className={popoverClasses} style={this.props.style}>
 				<a href="#" onClick={this.toggle} className="popover__trigger">{this.props.trigger}</a>
 				<div className="popover__content">
 					{this.props.children}
