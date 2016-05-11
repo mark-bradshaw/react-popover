@@ -69,6 +69,7 @@ export class Popover extends React.Component {
 
 	toggle = (e) => {
 		e.preventDefault();
+		e.stopPropagation();
 		if (this.state.isPopoverShown) {
 			this.hide();
 		} else {
